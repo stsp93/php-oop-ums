@@ -10,11 +10,10 @@
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <h1 class="navbar-brand p-3" href="#">User Management System</h1>
-
-    <div class="collapse navbar-collapse" id="navbarNav">
+    <div class="navbar-collapse p-2" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item active">
-          <a class="nav-link" href="index.php">Home</a>
+          <a class="nav-link" aria-current="page" href="index.php">Home</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="login.php">Login</a>
