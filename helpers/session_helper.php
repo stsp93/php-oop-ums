@@ -28,10 +28,18 @@ function showWarnings()
     }
 }
 
-function setSession($userId) {
+function setSession($userId, $userRole) {
     $_SESSION['userId'] = $userId;
+    $_SESSION['userRole'] = $userRole;
 }
 
+function isAdmin() {
+    return isset($_SESSION['userRole']) && $_SESSION['userRole'] === 'admin';
+}
+
+function isAuth() {
+    return isset($_SESSION['userId']);
+}
 
 function redirect($location) {
     header('Location: ' . $location);

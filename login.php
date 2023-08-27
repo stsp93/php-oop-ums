@@ -1,4 +1,7 @@
 <?php include 'header.php' ?>
+<?php if(isAuth()) {
+    redirect('index.php');
+} ?>
 <div class="container mt-5">
     <h2>Login</h2>
     <?php showWarnings(); ?>

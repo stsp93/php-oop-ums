@@ -83,7 +83,7 @@ class UserManagement
 
             if (password_verify($payload['password'], $user['password_hash'])) {
                 // save session
-                setSession($user['user_id']);
+                setSession($user['user_id'], $user['user_role']);
                 redirect('../index.php');
             } else {
                 setWarning('Invalid Username or Password');

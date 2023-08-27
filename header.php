@@ -4,7 +4,9 @@
 
 <head>
   <title>Home</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -16,7 +18,7 @@
         <li class="nav-item active">
           <a class="nav-link" aria-current="page" href="index.php">Home</a>
         </li>
-        <?php if (!isset($_SESSION['userId'])) {
+        <?php if (!isAuth()) {
           echo '<li class="nav-item">
           <a class="nav-link" href="login.php">Login</a>
         </li>
@@ -29,6 +31,13 @@
           <a class="nav-link" href="./controllers/UserManagement.php?q=logout">Logout</a>
         </li>';
         } ?>
+        <?php if(isAdmin()) {
+          echo '
+          <li class="nav-item">
+          <a class="nav-link" href="admin.php">Admin Panel</a>
+        </li>';
+        } 
+        ?>
       </ul>
     </div>
   </nav>
