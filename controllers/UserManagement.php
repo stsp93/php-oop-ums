@@ -5,21 +5,12 @@ include '../helpers/session_helper.php';
 class UserManagement
 {
 
-    private $userModel;
-
-    public function __construct()
-    {
-        $this->userModel = new User;
-    }
-
     public function register()
     {
-        $payload['username'] = $_POST['username'];
-        $payload['email'] = $_POST['email'];
-        $payload['password'] = $_POST['password'];
-        $payload['rePassword'] = $_POST['rePassword'];
-
+        $payload = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
         $payload['password_hash'] = password_hash($payload['password'], PASSWORD_BCRYPT);
+
+        $newUser = new User($payload['username'],  $payload['password_hash'],$payload['email']);
 
         // Validations
 
@@ -48,11 +39,11 @@ class UserManagement
         }
 
         // username taken
-        if (!empty($this->userModel->findUsername($payload['username']))) {
+        if (!empty($newUser->findUser())) {
             setWarning('Username is taken');
         }
         // email taken
-        if (!empty($this->userModel->findEmail($payload['email']))) {
+        if (!empty($newUser->findEmail($payload['email']))) {
             setWarning('Email is taken');
         }
 
@@ -62,7 +53,7 @@ class UserManagement
         }
 
         try {
-            $this->userModel->register($payload);
+            $newUser->save($payload);
             redirect('../login.php');
         } catch (PDOException $e) {
             echo $e->getMessage();
@@ -75,15 +66,15 @@ class UserManagement
         $payload['username'] = $_POST['username'];
         $payload['password'] = $_POST['password'];
 
+        $exsistingUser = new User($payload['username']);
+
         try {
             // validate login
-            $user = $this->userModel->findUsername($payload['username']);
+            $user = $exsistingUser->findUser();
 
-
-
-            if (password_verify($payload['password'], $user['password_hash'])) {
+            if (password_verify($payload['password'], $user->getPasswordHash())) {
                 // save session
-                setSession($user['user_id'], $user['user_role']);
+                setSession($user->getId(), $user->getRole());
                 redirect('../index.php');
             } else {
                 setWarning('Invalid Username or Password');
