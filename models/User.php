@@ -11,11 +11,11 @@ class User
 
     private $db;
 
-    public function __construct(string $username,string $password_hash = null,string $email = null,string $role = 'user' , int $id = null)
+    public function __construct(string $username,string $password = null,string $email = null,string $role = 'user' , int $id = null)
     {
         $this->db = new Database;
         $this->setUsername($username);
-        $this->setPasswordHash($password_hash);
+        $this->setPasswordHash($password);
         $this->setEmail($email);
         $this->setRole($role);
         $this->setId($id);
@@ -39,31 +39,32 @@ class User
 
     // setters
     private function setUsername(string $username) {
-        $this->username = $username;
+        $this->username = htmlspecialchars($username);
     }
-    private function setPasswordHash(string $password_hash) {
-        $this->password_hash = $password_hash;
+    private function setPasswordHash(string | null $password) {
+        // Hash Password
+        $this->password_hash = password_hash($password, PASSWORD_BCRYPT);
     }
-    private function setEmail(string $email) {
+    private function setEmail(string | null $email) {
         $this->email = $email;
     }
     private function setRole(string $role) {
         $this->role = $role;
     }
-    private function setId(int | string $id) {
+    private function setId(int | string | null $id) {
         $this->id = $id;
     }
 
     // create user(CREATE)
     public function save()
     {
-        return $this->db->query("INSERT INTO users (username, email,password_hash ) VALUES (?, ?, ?)",$this->username, $this->email, $this->password_hash);
+        return $this->db->insert(['username', 'email', 'password_hash'],[$this->username, $this->email, $this->password_hash]);
     }
 
     // find user(READ)
     public function findUser() {
         // TODO:
-        $user = $this->db->query("SELECT * FROM users WHERE username = ?", $this->username)[0];
+        // $user = $this->db->query("SELECT * FROM users WHERE username = ?", $this->username)[0];
         if(!empty($user)) {
             $this->setEmail($user['email']);
             $this->setPasswordHash($user['password_hash']);
@@ -74,6 +75,6 @@ class User
     }
     public function findEmail() {
         // TODO:
-        return $this->db->query("SELECT * FROM users WHERE email = ?", $this->email)[0];
+        // return $this->db->query("SELECT * FROM users WHERE email = ?", $this->email)[0];
     }
 }

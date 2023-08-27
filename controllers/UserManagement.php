@@ -8,9 +8,8 @@ class UserManagement
     public function register()
     {
         $payload = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
-        $payload['password_hash'] = password_hash($payload['password'], PASSWORD_BCRYPT);
 
-        $newUser = new User($payload['username'],  $payload['password_hash'],$payload['email']);
+        $newUser = new User($payload['username'],  $payload['password'],$payload['email']);
 
         // Validations
 
@@ -53,7 +52,7 @@ class UserManagement
         }
 
         try {
-            $newUser->save($payload);
+            $newUser->save();
             redirect('../login.php');
         } catch (PDOException $e) {
             echo $e->getMessage();
@@ -90,7 +89,6 @@ class UserManagement
         unset($_SESSION['user_id']);
         session_destroy();
 
-        $session = $_SESSION;
         redirect('../index.php');
     }
 }

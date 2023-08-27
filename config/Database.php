@@ -20,10 +20,22 @@ class Database
         }
     }
 
-    public function query(string $sql,array ...$params)
+    private function query($sql)
     {
         $this->stmt = $this->pdo->prepare($sql);
-        $this->stmt->execute([...$params]);
+    }
+
+    private function execute(...$args)
+    {
+        $this->stmt->execute(...$args);
         return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+// CREATE
+    public function insert(array $columNames, array $values) {
+        function questionMarks($arg) {
+            return '?';
+        }
+        $this->query('INSERT INTO users ('. implode(', ',$columNames). ') VALUES (' . implode(', ', array_map('questionMarks', $values)) .')' );
+        return $this->execute($values);
     }
 }
