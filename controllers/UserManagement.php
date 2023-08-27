@@ -94,6 +94,14 @@ class UserManagement
             die();
         }
     }
+
+    public function logout() {
+        unset($_SESSION['user_id']);
+        session_destroy();
+
+        $session = $_SESSION;
+        redirect('../index.php');
+    }
 }
 
 $userManagement = new UserManagement;
@@ -103,5 +111,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $userManagement->register();
     } else if ($_POST['type'] === 'login') {
         $userManagement->login();
+    }
+} else {
+    if($_GET['q'] === 'logout') {
+        $userManagement->logout();
     }
 }

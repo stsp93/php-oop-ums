@@ -1,5 +1,4 @@
 <?php include 'header.php' ?>
-<?php include './helpers/session_helper.php' ?>
 <div class="container mt-5">
     <h2>Register</h2>
     <?php showWarnings() ?>

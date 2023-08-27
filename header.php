@@ -1,3 +1,4 @@
+<?php include './helpers/session_helper.php' ?>
 <!DOCTYPE html>
 <html>
 
@@ -15,12 +16,19 @@
         <li class="nav-item active">
           <a class="nav-link" aria-current="page" href="index.php">Home</a>
         </li>
-        <li class="nav-item">
+        <?php if (!isset($_SESSION['userId'])) {
+          echo '<li class="nav-item">
           <a class="nav-link" href="login.php">Login</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="register.php">Register</a>
-        </li>
+        </li>';
+        } else {
+          echo '
+          <li class="nav-item">
+          <a class="nav-link" href="./controllers/UserManagement.php?q=logout">Logout</a>
+        </li>';
+        } ?>
       </ul>
     </div>
   </nav>
