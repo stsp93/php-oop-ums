@@ -64,10 +64,10 @@ class User
     // find user(READ)
     public function findUser() {
         // TODO:
-        // $user = $this->db->query("SELECT * FROM users WHERE username = ?", $this->username)[0];
+        $user = $this->db->selectOne('username', $this->username);
         if(!empty($user)) {
             $this->setEmail($user['email']);
-            $this->setPasswordHash($user['password_hash']);
+            $this->password_hash = $user['password_hash'];
             $this->setRole($user['user_role']);
             $this->setId($user['user_id']);
             return $this;
