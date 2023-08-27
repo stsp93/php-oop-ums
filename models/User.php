@@ -11,7 +11,7 @@ class User
 
     private $db;
 
-    public function __construct($username,$password_hash = null, $email = null, $role = 'user' ,$id = null)
+    public function __construct(string $username,string $password_hash = null,string $email = null,string $role = 'user' , int $id = null)
     {
         $this->db = new Database;
         $this->setUsername($username);
@@ -38,19 +38,19 @@ class User
     }
 
     // setters
-    private function setUsername($username) {
+    private function setUsername(string $username) {
         $this->username = $username;
     }
-    private function setPasswordHash($password_hash) {
+    private function setPasswordHash(string $password_hash) {
         $this->password_hash = $password_hash;
     }
-    private function setEmail($email) {
+    private function setEmail(string $email) {
         $this->email = $email;
     }
-    private function setRole($role) {
+    private function setRole(string $role) {
         $this->role = $role;
     }
-    private function setId($id) {
+    private function setId(int | string $id) {
         $this->id = $id;
     }
 

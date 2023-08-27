@@ -20,7 +20,7 @@ class Database
         }
     }
 
-    public function query($sql, ...$params)
+    public function query(string $sql,array ...$params)
     {
         $this->stmt = $this->pdo->prepare($sql);
         $this->stmt->execute([...$params]);

@@ -15,7 +15,7 @@ class UserManagement
         // Validations
 
         // if empty field
-        array_walk($payload, function ($value) {
+        array_walk($payload, function (string $value) {
             if (empty($value)) {
                 setWarning('Fill all fields');
                 redirect('../register.php');
