@@ -1,7 +1,10 @@
 <?php include 'header.php' ?>
+<?php include './helpers/session_helper.php' ?>
 <div class="container mt-5">
     <h2>Login</h2>
-    <form action="login.php" method="post">
+    <?php showWarnings(); ?>
+    <form action="./controllers/UserManagement.php" method="post">
+        <input type="hidden" name="type" value="login">
         <div class="form-group">
             <label for="username">Username</label>
             <input type="text" class="form-control" id="username" name="username" required>
