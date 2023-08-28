@@ -1,5 +1,5 @@
 <?php
-include '../config/Database.php';
+include dirname(__DIR__) . '/config/Database.php';
 
 class User
 {
@@ -11,7 +11,7 @@ class User
 
     private $db;
 
-    public function __construct(string $username,string $password = null,string $email = null,string $role = 'user' , int $id = null)
+    public function __construct(string $username = null,string $password = null,string $email = null,string $role = 'user' , int $id = null)
     {
         $this->db = new Database;
         $this->setUsername($username);
@@ -63,7 +63,6 @@ class User
 
     // find user(READ)
     public function findUser() {
-        // TODO:
         $user = $this->db->selectOne('username', $this->username);
         if(!empty($user)) {
             $this->setEmail($user['email']);
@@ -74,7 +73,17 @@ class User
         }
     }
     public function findEmail() {
-        // TODO:
-        // return $this->db->query("SELECT * FROM users WHERE email = ?", $this->email)[0];
+        $user = $this->db->selectOne('email', $this->email);
+        if(!empty($user)) {
+            $this->setEmail($user['email']);
+            $this->password_hash = $user['password_hash'];
+            $this->setRole($user['user_role']);
+            $this->setId($user['user_id']);
+            return $this;
+        }
+    }
+
+    private function getAllUsers(){
+        $user = $this->db;
     }
 }

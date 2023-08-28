@@ -5,7 +5,7 @@
 <div class="container mt-5">
     <h2>Login</h2>
     <?php showWarnings(); ?>
-    <form action="./controllers/UserManagement.php" method="post">
+    <form action="./controllers/AuthController.php" method="post">
         <input type="hidden" name="type" value="login">
         <div class="form-group">
             <label for="username">Username</label>

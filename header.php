@@ -6,7 +6,7 @@
   <title>Home</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -28,7 +28,7 @@
         } else {
           echo '
           <li class="nav-item">
-          <a class="nav-link" href="./controllers/UserManagement.php?q=logout">Logout</a>
+          <a class="nav-link" href="./controllers/AuthController.php?q=logout">Logout</a>
         </li>';
         } ?>
         <?php if(isAdmin()) {

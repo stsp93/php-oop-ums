@@ -2,7 +2,8 @@
 include '../models/User.php';
 include '../helpers/session_helper.php';
 
-class UserManagement
+// Taking care of login/register and validations logic
+class AuthManagement
 {
 
     public function register()
@@ -93,16 +94,4 @@ class UserManagement
     }
 }
 
-$userManagement = new UserManagement;
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if ($_POST['type'] === 'register') {
-        $userManagement->register();
-    } else if ($_POST['type'] === 'login') {
-        $userManagement->login();
-    }
-} else {
-    if($_GET['q'] === 'logout') {
-        $userManagement->logout();
-    }
-}
