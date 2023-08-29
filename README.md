@@ -17,5 +17,5 @@ This is a PHP & MySQL User Management System with Login and Registration
 ### Running the Project
 
 1.  Start XAMPP and ensure Apache and MySQL services are running.
-2.  Open your web browser and navigate to http://localhost/php-mysql-signup
+2.  Open your web browser and navigate to http://localhost/php-oop-ums
 3.  The Default Admin Account is `username: john` `password: asd`
