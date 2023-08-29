@@ -118,8 +118,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="#" method="post">
-                    <input id="deleteInfo" type="hidden" name="user_id" value="1">
+                <form action="./controllers/AdminController.php" method="post">
+                    <input id="deleteInfo" type="hidden" name="user_id">
                     <input type="hidden" name="type" value="deleteUser">
                     <div class="mb-3">
                         <label for="username" class="form-label">Are you sure?</label>
@@ -140,7 +140,7 @@
         $(`#editRole`).val($(this).parent().parent().find('#curRole').text());
     });
     $(`.deleteBtn`).on('click', function() {
-        $(`#deleteInfo`).val($(this).data('userid'));
+        $(`#deleteInfo`).val($(this).parent().parent().find('#curId').text());
     });
 
 

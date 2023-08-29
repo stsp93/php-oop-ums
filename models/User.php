@@ -11,7 +11,7 @@ class User
 
     private $db;
 
-    public function __construct(string $username = null,string $password = null,string $email = null,string $role = 'user' , int $id = null)
+    public function __construct(string $username = null, string $password = null, string $email = null, string $role = 'user', int $id = null)
     {
         $this->db = new Database;
         $this->setUsername($username);
@@ -21,53 +21,67 @@ class User
         $this->setId($id);
     }
     // getters
-    public function getUsername() {
+    public function getUsername()
+    {
         return $this->username;
     }
-    public function getPasswordHash() {
+    public function getPasswordHash()
+    {
         return $this->password_hash;
     }
-    public function getEmail() {
+    public function getEmail()
+    {
         return $this->email;
     }
-    public function getRole() {
+    public function getRole()
+    {
         return $this->role;
     }
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
     // setters
-    private function setUsername(string | null $username) {
+    private function setUsername(string | null $username)
+    {
         $this->username = htmlspecialchars($username);
     }
-    private function setPasswordHash(string | null $password) {
+    private function setPasswordHash(string | null $password)
+    {
         // Hash Password
         $this->password_hash = password_hash($password, PASSWORD_BCRYPT);
     }
-    private function setEmail(string | null $email) {
+    private function setEmail(string | null $email)
+    {
         $this->email = $email;
     }
-    private function setRole(string $role) {
+    private function setRole(string $role)
+    {
         $this->role = $role;
     }
-    private function setId(int | string | null $id) {
+    private function setId(int | string | null $id)
+    {
         $this->id = $id;
     }
 
     // create user(CREATE)
-    public function create() {
-        return $this->db->insert(['username', 'email', 'password_hash', 'user_role'],[$this->getUsername(), $this->getEmail(), $this->getPasswordHash(), $this->getRole()]);
+    public function create()
+    {
+        return $this->db->insert(['username', 'email', 'password_hash', 'user_role'], [$this->getUsername(), $this->getEmail(), $this->getPasswordHash(), $this->getRole()]);
     }
 
     // find user(READ)
-    public function findUser($searchBy) {
-        if($searchBy === 'username') {
-            $user = $this->db->selectOne($searchBy, $this->username);
-        } elseif($searchBy === 'email') {
-            $user = $this->db->selectOne('email', $this->email);
+    public function findUser($searchBy, $value = null)
+    {
+        if ($searchBy === 'username') {
+            $user = $this->db->selectOne($searchBy, $this->getUsername());
+        } elseif ($searchBy === 'email') {
+            $user = $this->db->selectOne($searchBy, $this->getEmail());
+        } elseif ($searchBy === 'user_id') {
+            $user = $this->db->selectOne($searchBy, $value ?? $this->getId());
         }
-        if(!empty($user)) {
+        if (!empty($user)) {
             $this->setUsername($user['username']);
             $this->setEmail($user['email']);
             $this->password_hash = $user['password_hash'];
@@ -77,12 +91,20 @@ class User
         }
     }
 
-    public function getAll(){
+    public function getAll()
+    {
         return $this->db->selectAll();
     }
 
     // edit user(UPDATE)
-    public function edit($userId) {
-        return $this->db->update($userId,[$this->getUsername(), $this->getEmail(), $this->getRole()]);
+    public function edit($userId)
+    {
+        return $this->db->update($userId, [$this->getUsername(), $this->getEmail(), $this->getRole()]);
+    }
+
+    // remove user(UPDATE)
+    public function remove($userId)
+    {
+        return $this->db->delete($userId);
     }
 }

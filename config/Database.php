@@ -57,7 +57,14 @@ class Database
     // UPDATE
 
     public function update($id, array $params){
-        $this->query("UPDATE users SET username = ?, email = ?, user_role = ? WHERE user_id = $id");
-        return $this->execute($params);
+        $this->query("UPDATE users SET username = ?, email = ?, user_role = ? WHERE user_id = ?");
+        return $this->execute([...$params, $id]);
+    }
+
+    // DELETE
+
+    public function delete($id) {
+        $this->query("DELETE FROM users WHERE user_id = ?");
+        return $this->execute([$id]);
     }
 }

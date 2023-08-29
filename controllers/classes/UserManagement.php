@@ -60,14 +60,7 @@ class UserManagement
     public function editUser()
     {
         $payload = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
-        $newUser = new User($payload['username'],  $payload['password'], $payload['email'], $payload['role']);
-
-        if (!empty($newUser->findUser('username'))) {
-            setWarning('Username is taken');
-        }
-        if (!empty($newUser->findUser('email'))) {
-            setWarning('Email is taken');
-        }
+        $updatedUser = new User($payload['username'],null, $payload['email'], $payload['role']);
 
         // Check for warnings guard clause
         if (!empty($_SESSION['warnings'])) {
@@ -76,11 +69,26 @@ class UserManagement
         }
 
         try {
-            $newUser->edit($payload['user_id']);
+            $updatedUser->edit($payload['user_id']);
             redirect('../admin.php');
         } catch (PDOException $e) {
-            echo $e->getMessage();
-            die();
+            setWarning($e->getMessage());
         }
+        header('Location: ../admin.php');
+        exit();
+    }
+
+    public function deleteUser()
+    {
+        $payload = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
+        $userModel = new User();
+        try {
+            $userModel->remove($payload['user_id']);
+
+        }catch(PDOException $e) {
+            setWarning($e->getMessage());
+        }
+        header('Location: ../admin.php');
+            exit();
     }
 }
