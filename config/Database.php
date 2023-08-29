@@ -45,10 +45,19 @@ class Database
 
     // READ 
     public function selectOne(string $column, string $value) {
-        // ("SELECT * FROM users WHERE username = ?", $this->username)[0]
-        // WHERE (state = 'California' AND supplier_id <> 900)
-        $test = "SELECT * FROM users WHERE $column = ? ";
         $this->query("SELECT * FROM users WHERE $column = ? ");
         return $this->execute([$value])[0];
+    }
+
+    public function selectAll() {
+        $this->query("SELECT user_id, username, email, user_role FROM users");
+        return $this->execute([]);
+    }
+
+    // UPDATE
+
+    public function update($id, array $params){
+        $this->query("UPDATE users SET username = ?, email = ?, user_role = ? WHERE user_id = $id");
+        return $this->execute($params);
     }
 }

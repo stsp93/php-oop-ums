@@ -39,21 +39,21 @@ class AuthManagement
         }
 
         // username taken
-        if (!empty($newUser->findUser())) {
+        if (!empty($newUser->findUser('username'))) {
             setWarning('Username is taken');
         }
         // email taken
-        if (!empty($newUser->findEmail($payload['email']))) {
+        if (!empty($newUser->findUser('email'))) {
             setWarning('Email is taken');
         }
 
         // Check for warnings guard clause
-        if (!noWarnings()) {
+        if (!empty($_SESSION['warnings'])) {
             redirect('../register.php');
         }
 
         try {
-            $newUser->save();
+            $newUser->create();
             redirect('../login.php');
         } catch (PDOException $e) {
             echo $e->getMessage();
@@ -70,7 +70,7 @@ class AuthManagement
 
         try {
             // validate login
-            $user = $exsistingUser->findUser();
+            $user = $exsistingUser->findUser('username');
 
             if (password_verify($payload['password'], $user->getPasswordHash())) {
                 // save session

@@ -1,6 +1,7 @@
 <?php include 'header.php' ?>
 <?php if(isAuth()) {
-    redirect('index.php');
+    header('Location: index.php');
+    exit();
 } ?>
 <div class="container mt-5">
     <h2>Register</h2>

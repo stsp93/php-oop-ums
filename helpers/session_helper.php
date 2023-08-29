@@ -9,10 +9,6 @@ function setWarning($message)
     array_push($_SESSION['warnings'],$message);
 }
 
-function noWarnings() {
-    return empty($_SESSION['warnings']);
-}
-
 function showWarnings()
 {
     // Show warnings

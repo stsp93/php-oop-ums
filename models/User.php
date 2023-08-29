@@ -38,7 +38,7 @@ class User
     }
 
     // setters
-    private function setUsername(string $username) {
+    private function setUsername(string | null $username) {
         $this->username = htmlspecialchars($username);
     }
     private function setPasswordHash(string | null $password) {
@@ -56,25 +56,19 @@ class User
     }
 
     // create user(CREATE)
-    public function save()
-    {
-        return $this->db->insert(['username', 'email', 'password_hash'],[$this->username, $this->email, $this->password_hash]);
+    public function create() {
+        return $this->db->insert(['username', 'email', 'password_hash', 'user_role'],[$this->getUsername(), $this->getEmail(), $this->getPasswordHash(), $this->getRole()]);
     }
 
     // find user(READ)
-    public function findUser() {
-        $user = $this->db->selectOne('username', $this->username);
-        if(!empty($user)) {
-            $this->setEmail($user['email']);
-            $this->password_hash = $user['password_hash'];
-            $this->setRole($user['user_role']);
-            $this->setId($user['user_id']);
-            return $this;
+    public function findUser($searchBy) {
+        if($searchBy === 'username') {
+            $user = $this->db->selectOne($searchBy, $this->username);
+        } elseif($searchBy === 'email') {
+            $user = $this->db->selectOne('email', $this->email);
         }
-    }
-    public function findEmail() {
-        $user = $this->db->selectOne('email', $this->email);
         if(!empty($user)) {
+            $this->setUsername($user['username']);
             $this->setEmail($user['email']);
             $this->password_hash = $user['password_hash'];
             $this->setRole($user['user_role']);
@@ -83,7 +77,12 @@ class User
         }
     }
 
-    private function getAllUsers(){
-        $user = $this->db;
+    public function getAll(){
+        return $this->db->selectAll();
+    }
+
+    // edit user(UPDATE)
+    public function edit($userId) {
+        return $this->db->update($userId,[$this->getUsername(), $this->getEmail(), $this->getRole()]);
     }
 }
